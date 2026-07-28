@@ -15,6 +15,61 @@ from reportlab.lib.styles import getSampleStyleSheet
 from datetime import datetime
 from streamlit_option_menu import option_menu
 
+
+# page configuration
+st.set_page_config(
+    page_title="AI Spam And Scam Detection System",
+    page_icon="🛡",
+    layout="wide",
+    initial_sidebar_state="collapsed"
+)
+
+st.markdown("""
+<style>
+@media (max-width: 768px) {
+
+    .main .block-container {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    div.stButton > button {
+        width: 100%;
+    }
+
+    h1 {
+        font-size: 28px !important;
+    }
+
+    p {
+        font-size: 16px;
+    }
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+      
+
+st.markdown("""
+<style>
+
+.stTextArea textarea {
+    color: black !important;
+    background-color: white !important;
+    -webkit-text-fill-color: black !important;
+}
+
+.stTextInput input {
+    color: black !important;
+    background-color: white !important;
+    -webkit-text-fill-color: black !important;
+}
+
+</style>
+""", unsafe_allow_html=True)
+        
+
 # load model only once
 @st.cache_resource
 def load_resource():
@@ -25,12 +80,6 @@ def load_resource():
 model, vectorizer = load_resource()
     
 
-st.set_page_config(
-    page_title="AI Spam And Scam Detection System",
-    page_icon="🛡",
-    layout="wide",
-    initial_sidebar_state="collapsed"
-)
 
 def get_base64(file):
     with open(file, "rb") as f:
@@ -465,7 +514,41 @@ if page == "🏠 Home":
     </style>    
     """, unsafe_allow_html=True)
 
+    st.markdown("""
+    <style>
+    .nav-guide {
+        background: rgba(0, 0, 0, 0.75);
+        color: white;
+        padding: 18px;
+        border-radius: 12px;
+        border: 1px solid #444;
+        margin-bottom: 20px;
+    }
+    .nav-guide h3 {
+        color: white;
+    }
+    .nav-guide ul {
+        color: white;
+        margin-bottom: 0;
+    }
+    </style>
 
+    <div class="nav-guide">
+    <h3>📌 Navigation Guide</h3>
+
+    <p>👈 open the <b>☰ Menu</b> to access:</p>
+
+    <ul>
+    <li>🔍 Smart Scanner</li>
+    <li>📊 Analysis Result</li>
+    <li>📜 Prediction History</li>
+    <li>📄 Report Download</li>
+    <li>ℹ️ About</li>
+    </ul>
+    </div>
+    """, unsafe_allow_html=True)
+
+        
     st.markdown('<div class="main">', unsafe_allow_html=True)
     
     #  home page  welcome banner
@@ -2126,7 +2209,7 @@ elif page == "📊 Analysis Result":
     story = []
     
     
-    story.append(Paragraph("<b>AI spam and spam detection report</b>",styles["Title"]))
+    story.append(Paragraph("<b>AI spam and scam detection report</b>",styles["Title"]))
 
     # add message summary to pdf 
     story.append(Paragraph("<b>📧 Message Summary</b>", styles["Heading2"]))
