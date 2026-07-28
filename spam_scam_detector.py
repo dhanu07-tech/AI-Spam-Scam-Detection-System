@@ -26,6 +26,46 @@ st.set_page_config(
 
 st.markdown("""
 <style>
+
+/* Password eye icon */
+[data-testid="stTextInput"] button svg {
+    color: black !important;
+    fill: black !important;
+}
+
+[data-testid="stTextInput"] button {
+    color: black !important;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+
+st.markdown("""
+<style>
+
+/* Sidebar open/close button */
+button[kind="header"] {
+    color: black !important;
+    background-color: white !important;
+    border: 1px solid #ddd !important;
+}
+
+button[kind="header"] svg {
+    fill: black !important;
+    color: black !important;
+}
+
+button[kind="header"]:hover {
+    background-color: #f0f0f0 !important;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+
+st.markdown("""
+<style>
 @media (max-width: 768px) {
 
     .main .block-container {
