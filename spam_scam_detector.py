@@ -26,46 +26,6 @@ st.set_page_config(
 
 st.markdown("""
 <style>
-
-/* Password eye icon */
-[data-testid="stTextInput"] button svg {
-    color: black !important;
-    fill: black !important;
-}
-
-[data-testid="stTextInput"] button {
-    color: black !important;
-}
-
-</style>
-""", unsafe_allow_html=True)
-
-
-st.markdown("""
-<style>
-
-/* Sidebar open/close button */
-button[kind="header"] {
-    color: black !important;
-    background-color: white !important;
-    border: 1px solid #ddd !important;
-}
-
-button[kind="header"] svg {
-    fill: black !important;
-    color: black !important;
-}
-
-button[kind="header"]:hover {
-    background-color: #f0f0f0 !important;
-}
-
-</style>
-""", unsafe_allow_html=True)
-
-
-st.markdown("""
-<style>
 @media (max-width: 768px) {
 
     .main .block-container {
@@ -161,28 +121,39 @@ CREATE TABLE IF NOT EXISTS users(
 # create users table
 conn.commit()
 
-#cursor.execute("SELECT * FROM users")
-#users = cursor.fetchall()
-#st.write("Database Users:",users)
+# Database users
+# cursor.execute("SELECT * FROM users")
+# users = cursor.fetchall()
+
+# st.write("Database Users:",users)
 
 
-def signup(username,email,password):
+def signup(username, email, password):
     try:
         cursor.execute(
-            "INSERT INTO users (username,email,password) VALUES (?,?,?)",
-            (username,email,password)
+            "INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
+            (username.strip(), email.strip(), password.strip())
         )
         conn.commit()
+        
         return True
-    except:
+
+    except Exception as e:
+        st.error(f"Signup Error: {e}")
         return False
 
-def login(username,password):
+
+def login(username, password):
     cursor.execute(
-        "SELECT*FROM users WHERE username=? AND password=?",
-        (username,password)
+        "SELECT * FROM users WHERE username=? AND password=?",
+        (username.strip(), password.strip())
     )
-    return cursor.fetchone()
+
+    user = cursor.fetchone()
+    
+    # st.write("Login Result:", user)
+    
+    return user is not None
 
 
 
@@ -395,8 +366,8 @@ if not st.session_state.logged_in:
 
         if choice == "Login":
 
-            username = st.text_input("Username")
-            password = st.text_input("Password", type="password")
+            username = st.text_input("Username").strip()
+            password = st.text_input("Password", type="password").strip()
 
             if st.button("🚀Login"):
 
@@ -418,7 +389,12 @@ if not st.session_state.logged_in:
 
             if st.button("Create Account"):
 
-                if signup(new_user , new_email, new_pass):
+                success = signup(new_user, new_email, new_pass)
+
+                # cursor.execute("SELECT * FROM users")
+                # st.write("Database After Signup:", cursor.fetchall())
+
+                if success:
 
                     st.success("Account Created Successfully")
 
